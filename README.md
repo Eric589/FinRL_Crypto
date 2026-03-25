@@ -21,18 +21,45 @@ This repository is ready for work with Binance API for cryptocurrency trading us
 - **Python 3.10** (Recommended version)  
 - Binance API keys  
 
-### 🎯 Setup  
+### 🎯 Setup
 
-#### 1. Install Dependencies  
-**For Python 3.10 (Recommended):**  
+#### 1. Install Python 3.10
+
+**Ubuntu/Debian:**
 ```bash
-pip install -r requirements-python310.txt
+sudo apt update
+sudo apt install python3.10 python3.10-venv python3.10-dev
 ```
 
-**For Python 3.11+:**  
+If `python3.10` is not found, add the deadsnakes PPA first:
 ```bash
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install python3.10 python3.10-venv python3.10-dev
+```
+
+#### 2. Install System Dependencies
+
+```bash
+sudo apt install swig libta-lib-dev
+```
+
+#### 3. Create a Virtual Environment
+
+```bash
+python3.10 -m venv .venv
+source .venv/bin/activate
+```
+
+#### 4. Install Python Dependencies
+
+```bash
+pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt
+pip install "numpy<2.0" "matplotlib>=3.9"   # fix numpy/matplotlib conflict
 ```
+
+> **Note:** `scipy` and `exchange-calendars` may upgrade numpy to 2.x during install, which breaks matplotlib 3.x. The last line pins numpy back to a compatible range.
 
 #### 2. Configure Binance API Keys  
 
@@ -122,13 +149,32 @@ python 4_backtest.py
 - Ensure cryptocurrency symbols are correct  
 - Check Binance API rate limits  
 
-### Dependency Issues  
+### Dependency Issues
+
 ```bash
-# Install TA-Lib (if needed)
-conda install -c conda-forge ta-lib  # For Anaconda
-# or for macOS:
-brew install ta-lib 
-```  
+# Install system dependencies (Ubuntu/Debian)
+sudo apt install swig libta-lib-dev
+
+# macOS
+brew install swig ta-lib
+
+# Anaconda
+conda install -c conda-forge ta-lib
+```
+
+### numpy version conflict (`matplotlib requires numpy<2`)
+
+Some packages (scipy, exchange-calendars) pull in numpy 2.x automatically. Fix:
+```bash
+pip install "numpy<2.0" "matplotlib>=3.9"
+```
+
+### `ModuleNotFoundError: No module named 'scipy._lib'`
+
+Scipy is broken — reinstall with pinned numpy:
+```bash
+pip install --force-reinstall scipy "numpy<2.0"
+```
 
 ## 📈 Additional Features  
 
@@ -144,7 +190,7 @@ Results are saved in the `/plots_and_metrics/` folder.
 
 If you encounter issues:  
 1. Check error logs for clues.  
-2. Verify all dependencies are installed (run `pip install -r requirements.txt` or `pip install -r requirements-python310.txt`).  
+2. Verify all dependencies are installed (run `pip install -r requirements.txt`).  
 3. Confirm Binance API keys are correctly configured in `config_api.py`.  
 
 ---

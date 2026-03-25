@@ -379,7 +379,7 @@ def pbo_core_calc(Cs, Ms, Ms_values, Ms_index, metric_func, verbose=False):
 
 def plot_pbo(pbo_result, name_exp, hist=False):
     if not os.path.isdir('./train_results/' + name_exp + '/images'):
-        os.mkdir('./train_results/' + name_exp + '/images')
+        os.makedirs('./train_results/' + name_exp + '/images')
 
     lm = pbo_result.linear_model
     sns.set(rc={'figure.figsize': (10, 6)})

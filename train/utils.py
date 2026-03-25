@@ -181,7 +181,7 @@ class PipeEvaluator:  # [ElegantRL.10.21]
                 save_path = f"{self.save_dir}/pod_save_{episode_return:09.3f}"
                 if not os.path.exists(save_path):
                     with DirLock(save_path):
-                        os.mkdir(save_path)
+                        os.makedirs(save_path)
                         agent.save_or_load_agent(save_path, if_save=True)
 
             """load"""
